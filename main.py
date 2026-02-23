@@ -4,129 +4,105 @@ import plotly.graph_objects as go
 from datetime import datetime
 
 # ==========================================
-# 1- إعدادات الهوية والسيادة (البند 1)
+# 1- الهندسة التفاعلية (التصميم البصري والرسوم)
 # ==========================================
-st.set_page_config(page_title="Basil Global Quantum", layout="wide")
+st.set_page_config(page_title="Basil Multimedia Project", layout="wide")
 
-# تصميم "بروتوكول باسل" للألوان والخطوط
 st.markdown("""
     <style>
-    .stApp { background-color: #05070a; color: #ffffff; }
-    /* تنسيق القائمة الجانبية لضمان وجودك القوي */
-    [data-testid="stSidebar"] { background-color: #0d1117; border-right: 2px solid #30363d; min-width: 300px; }
-    /* جعل الأرقام بيضاء ناصعة والخلفية احترافية */
-    [data-testid="stMetricValue"] { color: #ffffff !important; font-size: 35px !important; font-weight: 800; }
-    [data-testid="stMetricLabel"] { color: #58a6ff !important; font-size: 16px !important; font-weight: bold; }
-    [data-testid="stMetric"] { background: #161b22; border: 1px solid #30363d; border-radius: 15px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-    .main-title { font-size: 45px; font-weight: 900; text-align: center; color: #58a6ff; margin-bottom: 10px; }
-    .sub-title { text-align: center; color: #8b949e; margin-bottom: 30px; }
+    .stApp { background: linear-gradient(to bottom, #05070a, #0d1117); color: #ffffff; }
+    /* تأثيرات الأزرار التفاعلية */
+    .stButton>button {
+        width: 100%; border-radius: 20px; height: 3em;
+        background-color: #1f6feb; color: white; border: none;
+        transition: all 0.3s ease;
+    }
+    .stButton>button:hover { background-color: #58a6ff; transform: scale(1.05); }
+    [data-testid="stMetric"] { background: #161b22; border: 2px solid #30363d; border-radius: 20px; padding: 20px; }
+    .main-title { font-size: 55px; font-weight: 900; text-align: center; background: -webkit-linear-gradient(#58a6ff, #bc8cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
     """, unsafe_allow_html=True)
 
 # ==========================================
-# 2- القائمة الجانبية (البند 5 و6: الدعم والأمان)
+# 2- القائمة الجانبية (مركز التحكم والوسائط)
 # ==========================================
 with st.sidebar:
-    st.markdown("<h1 style='text-align: center; color: #58a6ff;'>BASIL ADMIN</h1>", unsafe_allow_html=True)
-    st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=100)
+    st.markdown("<h2 style='text-align: center;'>👑 القائد باسل</h2>", unsafe_allow_html=True)
+    st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=120)
     st.divider()
     
-    st.subheader("🌐 إعدادات السوق")
-    # محرك الصرف اللحظي (البند 4)
-    ex_rate = st.number_input("صرف الدرهم مقابل اليمني", value=145.0)
-    customs_val = st.slider("نسبة الجمارك الافتراضية %", 0, 100, 15)
+    # تفاعل صوتي (إضافة مؤثر صوتي عند العمل)
+    st.write("🎵 **المؤثرات الصوتية:**")
+    st.audio("https://www.soundjay.com/buttons/sounds/button-3.mp3") # صوت تنبيه تفاعلي
     
     st.divider()
-    st.subheader("📞 5- الدعم الفني")
-    st.write("🇦🇪 دبي: +971-50-XXXXXXX")
-    st.write("🇾🇪 اليمن: +967-77-XXXXXXX")
+    st.subheader("⚙️ إعدادات المشروع")
+    ex_rate = st.sidebar.slider("سعر الصرف اللحظي", 140.0, 160.0, 145.0)
     
-    st.divider()
-    st.subheader("🔐 6- بروتوكول الأمان")
-    st.code("SECURITY: AES-256\nSTATUS: ACTIVE\nENCRYPTION: RSA-4096")
-    
-    if st.button("تحديث النظام"):
-        st.rerun()
+    st.success("🔒 النظام محمي ومشفر")
 
 # ==========================================
-# 3- محتوى النظام الرئيسي (التبويبات)
+# 3- المحتوى التفاعلي الرئيسي (الهدف من المشروع)
 # ==========================================
-st.markdown('<p class="main-title">BASIL GLOBAL QUANTUM</p>', unsafe_allow_html=True)
-st.markdown('<p class="sub-title">Strategic Import/Export Orchestrator | UAE - YEMEN</p>', unsafe_allow_html=True)
+st.markdown('<p class="main-title">إمبراطورية الوسائط: مشروع باسل</p>', unsafe_allow_html=True)
+st.markdown("<h4 style='text-align: center;'>هدف المشروع: أتمتة سلاسل الإمداد بين دبي واليمن بصرياً وتفاعلياً</h4>", unsafe_allow_html=True)
 
-tabs = st.tabs(["📊 لوحة التحكم", "📦 الكتالوج الذكي", "🚛 اللوجستيات", "💰 الحاسبة المالية", "⚖️ البند 7: القانون"])
+# استخدام التبويبات لتنظيم الوسائط (صور، رسوم، تفاعل)
+t_intro, t_gallery, t_interactive, t_analytics = st.tabs(["📖 المقدمة", "📸 معرض الصور", "🎮 التفاعل", "📊 الرسوم البيانية"])
 
-# --- التبويب 1: إحصائيات الأعمال ---
-with tabs[0]:
-    st.subheader("Strategic AI Insights")
-    c1, c2, c3 = st.columns(3)
-    c1.metric("قيمة الأصول النشطة", "1,840,000 AED", "+4.2%")
-    c2.metric("كفاءة سلاسل الإمداد", "94%", "تحسن 2%")
-    c3.metric("توقعات الأرباح (Q1)", "145,000,000 YER")
+# --- تبويب 1: المقدمة (الهدف) ---
+with t_intro:
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        st.subheader("لماذا هذا المشروع؟")
+        st.write("""
+        يهدف هذا المشروع إلى تبسيط عملية استيراد قطع الغيار من خلال:
+        1. **الوضوح البصري:** رؤية القطع وحالتها فوراً.
+        2. **الدقة المالية:** حساب التكاليف والجمارك آلياً.
+        3. **السرعة اللوجستية:** تتبع حي للشحنات عبر الموانئ.
+        """)
+    with col2:
+        # إضافة فيديو توضيحي (وسائط)
+        st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") # مثال لفيديو، ضع رابط فيديو مشروعك هنا
+
+# --- تبويب 2: معرض الصور (وسائط بصرية) ---
+with t_gallery:
+    st.subheader("🖼️ معرض قطع الغيار والخدمات")
+    cols = st.columns(3)
+    with cols[0]:
+        st.image("https://img.freepik.com/free-photo/car-engine-parts_23-2148970367.jpg", caption="محركات بجودة عالية")
+    with cols[1]:
+        st.image("https://img.freepik.com/free-photo/logistics-transportation-container-cargo-ship_335224-659.jpg", caption="عمليات الشحن اللوجستي")
+    with cols[2]:
+        st.image("https://img.freepik.com/free-photo/financial-report-charts-graphs-analysis-with-calculator_335224-954.jpg", caption="التحليل المالي الذكي")
+
+# --- تبويب 3: التفاعل (أزرار ووسائل تفاعلية) ---
+with t_interactive:
+    st.subheader("🎮 جرب التفاعل مع النظام")
+    col_btn1, col_btn2, col_btn3 = st.columns(3)
     
-    # رسم بياني للنمو
-    fig = go.Figure(go.Scatter(x=['يناير', 'فبراير', 'مارس'], y=[50, 120, 200], line=dict(color='#58a6ff', width=4), mode='lines+markers'))
-    fig.update_layout(title="تحليل النمو المالي", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font_color="white")
+    if col_btn1.button("🔔 إرسال تنبيه للمستودع"):
+        st.balloons() # رسوم متحركة تفاعلية
+        st.write("✅ تم إرسال التنبيه الصوتي للمستودع في دبي!")
+        
+    if col_btn2.button("📦 تحديث حالة الشحنة"):
+        st.toast("جاري تحديث البيانات من منفذ شحن...")
+        st.write("📍 الشحنة الآن في **نقطة التفتيش الثالثة**")
+        
+    if col_btn3.button("💰 حساب الربح السريع"):
+        st.snow() # رسوم متحركة أخرى
+        st.info("نسبة الربح المتوقعة لهذه الشحنة: **22%**")
+
+# --- تبويب 4: الرسوم البيانية (رسوم تفاعلية) ---
+with t_analytics:
+    st.subheader("📈 تحليلات البيانات التفاعلية")
+    # رسم بياني تفاعلي (يتحرك مع الماوس)
+    fig = go.Figure(data=[go.Pie(labels=['محركات', 'جير', 'فلاتر', 'إطارات'], values=[4500, 2500, 1050, 600], hole=.3)])
+    fig.update_layout(template="plotly_dark", title_text="توزيع المخزون العالمي")
     st.plotly_chart(fig, use_container_width=True)
 
-# --- التبويب 2: الكتالوج (البند 2) ---
-with tabs[1]:
-    st.subheader("📦 إدارة قطع الغيار العالمية")
-    if 'inventory' not in st.session_state:
-        st.session_state.inventory = [
-            {"ID": "BS-101", "الصنف": "مكينة V8 تويوتا", "المصدر": "دبي", "التكلفة_AED": 15000},
-            {"ID": "BS-102", "الصنف": "جير لكزس 2024", "المصدر": "الشارقة", "التكلفة_AED": 8500}
-        ]
-    
-    df = pd.DataFrame(st.session_state.inventory)
-    st.table(df)
-    
-    with st.expander("➕ إضافة بضاعة جديدة للمخزن"):
-        new_name = st.text_input("اسم القطعة")
-        new_cost = st.number_input("التكلفة (AED)", min_value=0)
-        if st.button("اعتماد الصنف"):
-            st.session_state.inventory.append({"ID": f"BS-{len(st.session_state.inventory)+101}", "الصنف": new_name, "المصدر": "الإمارات", "التكلفة_AED": new_cost})
-            st.rerun()
-
-# --- التبويب 3: اللوجستيات (البند 3) ---
-with tabs[2]:
-    st.subheader("🚛 مسار الشحن الدولي")
-    
-    col_map, col_info = st.columns([2, 1])
-    with col_map:
-        st.info("📍 تتبع المسار الحالي: جبل علي ⬅️ منفذ شحن ⬅️ صنعاء")
-        st.progress(75)
-        st.write("الحالة الحالية: **في انتظار التخليص الجمركي النهائي**")
-    with col_info:
-        st.markdown("### بيانات الشحنة:")
-        st.write("- **رقم الحاوية:** BSL-9901")
-        st.write("- **تاريخ الإقلاع:** 20 فبراير")
-        st.write("- **الوصول المتوقع:** 25 فبراير")
-
-# --- التبويب 4: الحاسبة المالية (البند 4) ---
-with tabs[3]:
-    st.subheader("💰 محرك حساب الأرباح والجمارك")
-    col_in, col_out = st.columns(2)
-    with col_in:
-        item_price = st.number_input("سعر الشراء في دبي (AED)", value=1000)
-        item_customs = st.selectbox("فئة جمارك القطعة", [0.05, 0.15, 0.25], format_func=lambda x: f"{int(x*100)}%")
-    with col_out:
-        total_aed = item_price * (1 + item_customs)
-        total_yer = total_aed * ex_rate
-        st.metric("التكلفة النهائية باليمني", f"{total_yer:,.0f} YER")
-        st.write(f"قيمة الجمارك المدفوعة: {item_price * item_customs} AED")
-
-# --- التبويب 5: القانون والمستندات (البند 7) ---
-with tabs[4]:
-    st.subheader("⚖️ نظام أتمتة الوثائق")
-    st.success("✅ الفواتير التجارية مطابقة لمعايير دبي.")
-    st.success("✅ شهادة المنشأ مفعلة.")
-    st.warning("⚠️ يرجى التأكد من ختم الجمارك في منفذ شحن لضمان مرور الشحنة.")
-    if st.button("توليد تقرير ضريبي"):
-        st.download_button("تحميل الملف PDF", data="Basil Report", file_name="Basil_Report.pdf")
-
 # ==========================================
-# 4- التذييل (Footer)
+# 4- التذييل (نهاية المشروع)
 # ==========================================
-st.markdown("---")
-st.caption(f"Basil Global Quantum Enterprise | v21.0 Full Stack | Created for Leadership © {datetime.now().year}")
+st.divider()
+st.markdown("<p style='text-align: center;'>جميع الحقوق محفوظة © إمبراطورية باسل للوسائط المتعددة 2026</p>", unsafe_allow_html=True)
