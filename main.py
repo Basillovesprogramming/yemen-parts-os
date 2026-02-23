@@ -1,39 +1,91 @@
 import streamlit as st
 
-# إعدادات واجهة المستخدم الاحترافية
-st.set_page_config(page_title="Yemen Parts OS - Professional Edition", layout="wide")
+# إعدادات الهوية البصرية للنظام
+st.set_page_config(page_title="نظام باسل لإدارة الاستيراد", layout="wide", initial_sidebar_state="expanded")
 
-# تصميم الهيدر (رأس الصفحة)
+# تصميم CSS لتحسين المظهر وجعله يبدو كبرنامج شركات
 st.markdown("""
     <style>
-    .main { background-color: #f5f7f9; }
-    .stMetric { background-color: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .main { background-color: #f8f9fa; }
+    .stMetric { border: 1px solid #e0e0e0; padding: 20px; border-radius: 15px; background-color: white; box-shadow: 2px 2px 10px rgba(0,0,0,0.02); }
+    h1 { color: #1E3A8A; font-family: 'Arial'; }
+    .stButton>button { width: 100%; border-radius: 10px; height: 3em; background-color: #1E3A8A; color: white; }
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🏛️ نظام البازلاء المتكامل لإدارة استيراد قطع الغيار")
-st.caption("النسخة الاحترافية المخصصة للتجار - الربط المباشر بين دبي واليمن")
+# الرأس (Header)
+st.title("🛡️ نظام باسل المتكامل لإدارة تسعير قطع الغيار")
+st.info("الربط البرمجي بين سوق دبي والمخازن اليمنية - نسخة التاجر المحترف")
 
-# --- لوحة التحكم الجانبية ---
-st.sidebar.header("📋 إعدادات النظام المركزية")
+# القائمة الجانبية (إعدادات العملة والربح)
 with st.sidebar:
-    exchange_rate = st.number_input("سعر صرف الدولار (اليمن)", value=530, help="السعر الحالي في السوق")
-    profit_margin = st.slider("نسبة الأرباح المستهدفة (%)", 5, 100, 25)
+    st.header("⚙️ إعدادات الصرف")
+    # التعديل حسب طلبك: 100 دولار بـ 53 الف
+    usd_to_yer = st.number_input("سعر صرف الدولار (صنعاء)", value=530)
     st.divider()
-    st.info("💡 هذا النظام يحسب التكاليف بناءً على معايير الشحن الدولي والتخليص الجمركي.")
+    st.header("💰 هامش الربح")
+    profit_rate = st.slider("نسبة الربح المستهدفة (%)", 5, 100, 25)
+    st.write(f"سيتم إضافة {profit_rate}% على التكلفة الإجمالية.")
 
-# --- الواجهة الرئيسية (هيكلية العمليات) ---
-tab1, tab2 = st.tabs(["🚀 عملية تسعير جديدة", "📂 سجل العمليات"])
+# جسم النظام (هيكلية العمليات)
+col_input, col_display = st.columns([2, 1])
 
-with tab1:
-    col1, col2 = st.columns([2, 1])
+with col_input:
+    with st.container():
+        st.subheader("📝 تفاصيل القطعة المستوردة")
+        c1, c2 = st.columns(2)
+        with c1:
+            item_name = st.text_input("اسم القطعة (مثلاً: مساعدات كامري)", "قطعة غيار")
+            part_number = st.text_input("رقم القطعة (Part Number)", "PN-0000")
+        with c2:
+            category = st.selectbox("تصنيف القطعة", ["محركات", "جير بوكس", "كهربائيات", "هيكل", "أخرى"])
+            aed_price = st.number_input("سعر الشراء في دبي (درهم)", min_value=0.0, value=100.0)
+
+    st.divider()
     
-    with col1:
-        st.subheader("📦 بيانات الشحنة")
-        p_col1, p_col2 = st.columns(2)
-        with p_col1:
-            item_name = st.text_input("وصف قطعة الغيار", "محرك تويوتا كامري 2024")
-            part_no = st.text_input("رقم القطعة (Part Number)", "TY-2024-X1")
+    with st.container():
+        st.subheader("🚛 تكاليف اللوجستيات")
+        c3, c4 = st.columns(2)
+        with c3:
+            shipping_aed = st.number_input("الشحن من دبي (درهم)", value=15.0)
+            customs_rate = st.number_input("الجمارك والضرائب (%)", value=10)
+        with c4:
+            local_shipping = st.number_input("النقل الداخلي في اليمن (ريال)", value=5000)
+            extra_fees = st.number_input("مصاريف إضافية (ريال)", value=0)
+
+# محرك الحسابات الذكي (The Engine)
+# 1. حساب التكلفة بالدرهم مع الشحن
+total_aed = aed_price + shipping_aed
+# 2. التحويل للدولار وإضافة الجمارك
+total_usd = (total_aed / 3.67) * (1 + customs_rate/100)
+# 3. التحويل لليمني وإضافة المصاريف المحلية والربح
+base_cost_yer = (total_usd * usd_to_yer) + local_shipping + extra_fees
+final_price_yer = base_cost_yer * (1 + profit_rate/100)
+net_profit = final_price_yer - base_cost_yer
+
+with col_display:
+    st.subheader("📊 التحليل المالي")
+    st.metric("السعر النهائي (ريال يمني)", f"{round(final_price_yer):,} YER")
+    st.metric("صافي الربح المتوقع", f"{round(net_profit):,} YER")
+    st.metric("التكلفة بالدولار", f"${round(total_usd, 2)}")
+    
+    if st.button("تجهيز فاتورة احترافية"):
+        st.balloons()
+        st.markdown(f"""
+        <div style="border: 2px solid #1E3A8A; padding: 15px; border-radius: 10px; background-color: white; text-align: right;">
+            <h3 style="color: #1E3A8A; text-align: center;">فاتورة عرض سعر</h3>
+            <p><b>اسم العميل:</b> عميل محترم</p>
+            <p><b>القطعة:</b> {item_name}</p>
+            <p><b>رقم القطعة:</b> {part_number}</p>
+            <hr>
+            <h2 style="color: green; text-align: center;">{round(final_price_yer):,} ريال يمني</h2>
+            <p style="font-size: 10px; text-align: center;">تم التسعير بواسطة نظام باسل المتكامل</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+# تذييل الصفحة
+st.markdown("---")
+st.caption("نظام باسل لإدارة قطع الغيار v2.0 - جميع الحقوق محفوظة")
         with p_col2:
             aed_price = st.number_input("سعر الشراء من دبي (درهم)", min_value=0.0, value=1200.0)
             category = st.selectbox("تصنيف القطعة", ["محركات", "جير بوكس", "كهربائيات", "هيكل خارجي"])
