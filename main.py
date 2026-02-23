@@ -1,130 +1,129 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+from datetime import datetime
 import time
-from datetime import datetime  # <--- هذا هو السطر الذي كان ناقصاً وحل المشكلة
 
 # ==========================================
-# 1- بروتوكول القيادة العليا (The Neuralink UI)
+# 1- بروتوكول "الهيبة السوداء" (Cinematic UI)
 # ==========================================
-st.set_page_config(page_title="BASIL X-VISION", layout="wide", page_icon="🚀")
+st.set_page_config(page_title="BASIL SUPREMACY", layout="wide", page_icon="🔱")
 
 st.markdown("""
     <style>
-    /* خلفية الفضاء العميق */
+    /* خلفية سينمائية عميقة */
     .stApp {
-        background: url('https://getwallpapers.com/wallpaper/full/1/3/4/621151.jpg');
+        background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), 
+                    url('https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=1920&q=80');
         background-size: cover;
         color: #ffffff;
     }
     
-    /* الكروت الزجاجية (Glassmorphism) */
+    /* تصميم الكروت "الزمردية" المتحركة */
     [data-testid="stMetric"] {
-        background: rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        border-radius: 20px !important;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-        transition: 0.4s;
+        background: rgba(255, 255, 255, 0.03) !important;
+        border-left: 5px solid #00ff88 !important;
+        border-radius: 10px !important;
+        backdrop-filter: blur(10px);
+        padding: 30px !important;
+        box-shadow: 10px 10px 20px rgba(0,0,0,0.5);
     }
+    
     [data-testid="stMetric"]:hover {
-        transform: scale(1.03) translateY(-5px);
-        border: 1px solid #00d4ff !important;
-        box-shadow: 0 0 25px #00d4ff;
+        background: rgba(0, 255, 136, 0.1) !important;
+        transform: scale(1.02);
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
     }
 
-    /* نصوص إيلون ماسك ناصعة البياض */
-    [data-testid="stMetricValue"] { color: #00d4ff !important; font-weight: 900 !important; }
+    /* نصوص ناصعة كالألماس */
+    [data-testid="stMetricValue"] { color: #00ff88 !important; font-size: 45px !important; font-weight: 900 !important; }
 
-    /* العناوين المستقبلية */
-    .elon-title {
-        font-size: 65px;
-        text-align: center;
-        letter-spacing: 10px;
-        background: linear-gradient(to right, #00d4ff, #ffffff, #00d4ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    .hero-title {
+        font-size: 80px; font-weight: 900; text-align: center;
+        letter-spacing: 15px; color: white;
+        text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88;
+        margin-top: -50px;
     }
     </style>
     """, unsafe_allow_html=True)
 
 # ==========================================
-# 2- القائمة الجانبية (The Mission Control)
+# 2- القائمة الجانبية (The Sovereign Sidebar)
 # ==========================================
 with st.sidebar:
-    st.markdown("<h1 style='text-align: center; color: #00d4ff;'>MASTERMIND</h1>", unsafe_allow_html=True)
-    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndm0zd3J6Mms0Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKVUn7iM8FMEU24/giphy.gif", width=250)
+    st.markdown("<h1 style='text-align: center; color: #00ff88;'>BASIL HQ</h1>", unsafe_allow_html=True)
+    # جيف سينمائي يعبر عن التكنولوجيا
+    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y2Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/I5xV5HnSIno/giphy.gif", width=250)
     
     st.divider()
-    st.write("🌌 **حالة الإمبراطورية:**")
-    st.info("جميع الأنظمة تعمل بكفاءة 100% (Alpha-Mode)")
+    st.subheader("🎵 نظام التنبيهات الصوتي")
+    st.audio("https://www.soundjay.com/buttons/sounds/button-20.mp3")
     
     st.divider()
-    if st.button("🚀 إطلاق القمر الصناعي Basil-1"):
-        st.toast("Connecting to Starlink...")
+    st.write("🌍 **النفوذ العالمي:** دبي | صنعاء | طوكيو")
+    st.progress(100)
+    
+    if st.button("🔱 تفعيل السلطة المطلقة"):
         st.balloons()
-        st.audio("https://www.soundjay.com/buttons/sounds/button-21.mp3")
+        st.toast("Access Granted: Welcome Master Basil")
 
 # ==========================================
-# 3- لوحة التحكم المركزية (The Command Deck)
+# 3- لوحة القيادة (The Command Center)
 # ==========================================
-st.markdown('<p class="elon-title">BASIL X-VISION</p>', unsafe_allow_html=True)
-st.markdown("<h4 style='text-align: center; color: #8b949e;'>GLOBAL LOGISTICS & QUANTUM TRADING</h4>", unsafe_allow_html=True)
+st.markdown('<p class="hero-title">BASIL</p>', unsafe_allow_html=True)
+st.markdown("<h3 style='text-align: center; color: #8b949e; letter-spacing: 5px;'>QUANTUM GLOBAL TRADING SYSTEM</h3>", unsafe_allow_html=True)
 
+# صف الإحصائيات العملاق (البند 1)
 col1, col2, col3 = st.columns(3)
-col1.metric("إجمالي الثروة النشطة", "1,840,000 AED", "+12% 📈")
-col2.metric("أسطول الحاويات", "42 حاوية", "تحت السيطرة")
-col3.metric("توقعات الربح السنوي", "$45,000,000", "Target Locked")
+col1.metric("ASSET VALUE", "1.84M AED", "TOP TIER")
+col2.metric("LOGISTICS FLIGHTS", "14 ACTIVE", "IN-TRANSIT")
+col3.metric("NET REVENUE", "145M YER", "98% ACCURACY")
 
+# ==========================================
+# 4- الوسائط التفاعلية (The Multi-Media Hub)
+# ==========================================
 st.divider()
-t1, t2, t3 = st.tabs(["🛰️ رادار التتبع", "📦 مخزن الأسلحة التجارية", "💹 الذكاء المالي"])
+tab1, tab2, tab3 = st.tabs(["⚡ الرادار الذكي", "📽️ الكواليس والوسائط", "📈 مصفوفة الأرباح"])
 
-with t1:
-    st.subheader("تتبع الشحنات عبر الأقمار الصناعية (Real-time)")
-    fig = go.Figure(data=[go.Scatter3d(
-        x=[1, 2, 3, 4], y=[10, 20, 15, 25], z=[5, 5, 5, 5],
-        mode='lines+markers',
-        line=dict(color='#00d4ff', width=10)
-    )])
-    fig.update_layout(
-        scene=dict(xaxis_backgroundcolor="#05070a", yaxis_backgroundcolor="#05070a", zaxis_backgroundcolor="#05070a"),
-        paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font_color="white", height=400
-    )
+with tab1:
+    st.subheader("تتبع الأقمار الصناعية للشحنات")
+    
+    # رسم بياني ثلاثي الأبعاد للأرباح المتوقعة
+    fig = go.Figure(data=[go.Surface(z=[[1, 2, 3], [4, 5, 6], [7, 8, 9]], colorscale='Viridis')])
+    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font_color="white", height=500)
     st.plotly_chart(fig, use_container_width=True)
-    st.success("📍 الموقع الحالي للحاوية الكبرى: **ميناء جبل علي - رصيف 4**")
 
-with t2:
-    st.subheader("الكتالوج الرقمي (The Arsenal)")
-    col_img, col_data = st.columns([1, 2])
-    with col_img:
-        st.image("https://img.freepik.com/free-photo/industrial-design-concept-with-engine_23-2150141323.jpg", caption="Quantum Engine V12")
-    with col_data:
-        st.table(pd.DataFrame({
-            "القطعة": ["محرك تيسلا", "جير بوكس لاندكروزر", "نظام تعليق لكزس"],
-            "الحالة": ["متاح", "في الطريق", "تم البيع"],
-            "السعر": ["$45,000", "$12,000", "$8,500"]
-        }))
+with tab2:
+    st.subheader("🎬 الوسائط والمؤثرات")
+    c_v, c_i = st.columns([2, 1])
+    with c_v:
+        st.video("https://www.youtube.com/watch?v=36YnV9STBqc") # فيديو برومو تقني
+    with c_i:
+        st.image("https://img.freepik.com/free-photo/industrial-design-concept-with-engine_23-2150141323.jpg", caption="The Power Unit")
+        st.image("https://img.freepik.com/free-photo/logistics-transportation-container-cargo-ship_335224-659.jpg", caption="Global Hub")
 
-with t3:
-    st.subheader("محرك الحسابات الكمي (Quantum Finance)")
-    c_a, c_b = st.columns(2)
-    with c_a:
-        st.write("أدخل القيمة (AED):")
-        val = st.number_input("", value=10000)
-    with c_b:
-        st.write("النتيجة بالريال اليمني:")
-        st.title(f"{val * 145:,.0f} YER")
-        st.progress(85)
+with tab3:
+    st.subheader("🧮 حاسبة الصرف الفوري")
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.markdown("#### أدخل القيمة بالدرهم (AED)")
+        val_in = st.number_input("", value=10000)
+    with col_b:
+        st.markdown("#### القيمة بالريال اليمني (YER)")
+        st.markdown(f"<h1 style='color: #00ff88;'>{val_in * 145:,.0f}</h1>", unsafe_allow_html=True)
+        st.progress(75)
 
+# ==========================================
+# 5- التفاعل الحي (The Final Interaction)
+# ==========================================
 st.divider()
-st.subheader("🎮 مركز التحكم التفاعلي")
-if st.button("🔥 تفعيل وضع الهجوم التجاري"):
-    with st.spinner('Calculating profits...'):
+st.subheader("🕹️ وحدة التحكم التفاعلية")
+if st.button("🔥 إطلاق إعصار الأرباح"):
+    with st.spinner('برمجة النجاح...'):
         time.sleep(1)
         st.snow()
-        st.audio("https://www.soundjay.com/misc/sounds/wind-chime-01.mp3")
-        st.warning("⚠️ نسبة الأرباح ستتجاوز قدرة البنوك!")
+        st.audio("https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3")
+        st.success("تم التفعيل! أنت الآن في القمة يا باسل.")
 
-# التذييل المصحح
-st.caption(f"BASIL GLOBAL X-VISION v25.1 | Multi-Media OS | © {datetime.now().year}")
+# تذييل الصفحة
+st.caption(f"BASIL SUPREMACY v26.0 | The Final Multi-Media OS | © {datetime.now().year}")
