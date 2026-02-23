@@ -1,39 +1,94 @@
 import streamlit as st
 
-# إعدادات الهوية البصرية للنظام
-st.set_page_config(page_title="نظام باسل لإدارة الاستيراد", layout="wide", initial_sidebar_state="expanded")
+# إعدادات الصفحة الاحترافية
+st.set_page_config(page_title="نظام باسل المتكامل", layout="wide")
 
-# تصميم CSS لتحسين المظهر وجعله يبدو كبرنامج شركات
+# تجميل الواجهة بألوان الشركات (كحلي وذهبي)
 st.markdown("""
-    <style>
-    .main { background-color: #f8f9fa; }
-    .stMetric { border: 1px solid #e0e0e0; padding: 20px; border-radius: 15px; background-color: white; box-shadow: 2px 2px 10px rgba(0,0,0,0.02); }
-    h1 { color: #1E3A8A; font-family: 'Arial'; }
-    .stButton>button { width: 100%; border-radius: 10px; height: 3em; background-color: #1E3A8A; color: white; }
-    </style>
-    """, unsafe_allow_html=True)
+<style>
+    .stApp { background-color: #f4f7f6; }
+    [data-testid="stMetricValue"] { color: #1e3a8a; font-size: 32px; }
+    .main-title { color: #1e3a8a; text-align: center; font-size: 40px; font-weight: bold; }
+</style>
+""", unsafe_allow_html=True)
 
-# الرأس (Header)
-st.title("🛡️ نظام باسل المتكامل لإدارة تسعير قطع الغيار")
-st.info("الربط البرمجي بين سوق دبي والمخازن اليمنية - نسخة التاجر المحترف")
+st.markdown('<p class="main-title">🏛️ نظام باسل لإدارة استيراد قطع الغيار</p>', unsafe_allow_html=True)
+st.info("نظام متطور للربط اللوجستي بين أسواق دبي والجمهورية اليمنية")
 
-# القائمة الجانبية (إعدادات العملة والربح)
+# --- القائمة الجانبية لإدارة العملة ---
 with st.sidebar:
-    st.header("⚙️ إعدادات الصرف")
-    # التعديل حسب طلبك: 100 دولار بـ 53 الف
-    usd_to_yer = st.number_input("سعر صرف الدولار (صنعاء)", value=530)
+    st.header("⚙️ التحكم بالصرف والارباح")
+    # بناءً على طلبك: 100 دولار بـ 53 ألف (صرف صنعاء)
+    ex_rate = st.number_input("صرف الدولار (ريال يمني)", value=530)
+    profit_pct = st.slider("هامش الربح المستهدف (%)", 5, 100, 25)
     st.divider()
-    st.header("💰 هامش الربح")
-    profit_rate = st.slider("نسبة الربح المستهدفة (%)", 5, 100, 25)
-    st.write(f"سيتم إضافة {profit_rate}% على التكلفة الإجمالية.")
+    st.write("تم ضبط النظام ليعمل وفق معايير السوق الرسمية.")
 
-# جسم النظام (هيكلية العمليات)
-col_input, col_display = st.columns([2, 1])
+# --- واجهة إدخال البيانات الهيكلية ---
+tab_calc, tab_info = st.tabs(["🚀 تسعير القطع", "ℹ️ دليل المستخدم"])
 
-with col_input:
-    with st.container():
-        st.subheader("📝 تفاصيل القطعة المستوردة")
-        c1, c2 = st.columns(2)
+with tab_calc:
+    c1, c2 = st.columns([2, 1])
+    
+    with c1:
+        st.subheader("📦 بيانات الشحنة")
+        col_name, col_part = st.columns(2)
+        with col_name:
+            item_name = st.text_input("اسم القطعة", "مساعدات لكزس")
+        with col_part:
+            part_no = st.text_input("رقم القطعة", "PN-8822")
+            
+        col_price, col_cat = st.columns(2)
+        with col_price:
+            price_aed = st.number_input("سعر الشراء (درهم دبي)", min_value=1.0, value=100.0)
+        with col_cat:
+            cat = st.selectbox("الفئة", ["محركات", "كهرباء", "هيكل", "أخرى"])
+
+        st.subheader("🚛 التكاليف والجمارك")
+        col_ship, col_tax = st.columns(2)
+        with col_ship:
+            ship_aed = st.number_input("الشحن الدولي (درهم)", value=15.0)
+        with col_tax:
+            customs = st.number_input("الجمارك والضرائب (%)", value=10)
+
+    # --- المحرك الحسابي (بدون أخطاء مسافات) ---
+    total_aed = price_aed + ship_aed
+    cost_usd = (total_aed / 3.67) * (1 + customs/100)
+    final_cost_yer = cost_usd * ex_rate
+    price_with_profit = final_cost_yer * (1 + profit_pct/100)
+
+    with c2:
+        st.subheader("📊 الخلاصة المالية")
+        st.metric("السعر النهائي للبيع", f"{round(price_with_profit):,} ريال")
+        st.metric("صافي الفائدة", f"{round(price_with_profit - final_cost_yer):,} ريال")
+        st.metric("التكلفة بالدولار", f"${round(cost_usd, 2)}")
+
+# --- الفاتورة الاحترافية ---
+st.divider()
+st.subheader("📜 عرض السعر الرسمي")
+invoice_html = f"""
+<div style="border: 2px solid #1e3a8a; padding: 25px; border-radius: 15px; background-color: white;">
+    <h2 style="text-align: center; color: #1e3a8a;">🛡️ باسل لقطع الغيار 🛡️</h2>
+    <p style="text-align: center;">دبي - اليمن</p>
+    <hr>
+    <div style="display: flex; justify-content: space-between; direction: rtl;">
+        <span><b>القطعة:</b> {item_name}</span>
+        <span><b>الرقم:</b> {part_no}</span>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <h1 style="color: #16a34a;">{round(price_with_profit):,} ريال يمني</h1>
+        <p style="color: gray;">العرض صالح وفق أسعار الصرف الحالية</p>
+    </div>
+</div>
+"""
+st.markdown(invoice_html, unsafe_allow_html=True)
+
+if st.button("📲 تجهيز رسالة واتساب للعميل"):
+    st.balloons()
+    st.info(f"القطعة: {item_name} | السعر: {round(price_with_profit):,} ريال")
+
+with tab_info:
+    st.write("هذا النظام مبرمج لصالح التاجر **باسل** لإدارة عمليات الاستيراد بدقة متناهية.")
         with c1:
             item_name = st.text_input("اسم القطعة (مثلاً: مساعدات كامري)", "قطعة غيار")
             part_number = st.text_input("رقم القطعة (Part Number)", "PN-0000")
