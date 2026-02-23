@@ -1,39 +1,97 @@
 import streamlit as st
 
-# إعداد واجهة النظام المتطور
-st.set_page_config(page_title="نظام البازلاء AI المطور", layout="wide")
+# إعدادات واجهة المستخدم الاحترافية
+st.set_page_config(page_title="Yemen Parts OS - Professional Edition", layout="wide")
 
-st.title("🤖 نظام البازلاء المتكامل لقطع الغيار (دبي - اليمن)")
-st.markdown("---")
+# تصميم الهيدر (رأس الصفحة)
+st.markdown("""
+    <style>
+    .main { background-color: #f5f7f9; }
+    .stMetric { background-color: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    </style>
+    """, unsafe_allow_html=True)
 
-# القائمة الجانبية (لوحة التحكم المركزية)
-st.sidebar.header("📊 إعدادات الصرف والربح")
-# بناءً على كلامك: 100 دولار بـ 53 الف يعني الدولار بـ 530
-exchange_rate = st.sidebar.number_input("سعر صرف الدولار (مثلاً 530)", value=530)
-profit_target = st.sidebar.slider("نسبة ربحك الصافي (%)", 5, 50, 20)
+st.title("🏛️ نظام البازلاء المتكامل لإدارة استيراد قطع الغيار")
+st.caption("النسخة الاحترافية المخصصة للتجار - الربط المباشر بين دبي واليمن")
 
-# الواجهة الرئيسية (إدخال البيانات)
-col1, col2 = st.columns(2)
+# --- لوحة التحكم الجانبية ---
+st.sidebar.header("📋 إعدادات النظام المركزية")
+with st.sidebar:
+    exchange_rate = st.number_input("سعر صرف الدولار (اليمن)", value=530, help="السعر الحالي في السوق")
+    profit_margin = st.slider("نسبة الأرباح المستهدفة (%)", 5, 100, 25)
+    st.divider()
+    st.info("💡 هذا النظام يحسب التكاليف بناءً على معايير الشحن الدولي والتخليص الجمركي.")
 
-with col1:
-    st.subheader("📝 بيانات القطعة")
-    # هذا المتغير هو الذي سبب الخطأ في صورتك، الآن قمنا بتعريفه صح
-    item_name = st.text_input("اسم قطعة الغيار", "قطعة غيار")
-    aed_price = st.number_input("سعر الشراء من دبي (درهم)", min_value=0.0, value=100.0)
+# --- الواجهة الرئيسية (هيكلية العمليات) ---
+tab1, tab2 = st.tabs(["🚀 عملية تسعير جديدة", "📂 سجل العمليات"])
 
-with col2:
-    st.subheader("🚛 تكاليف إضافية")
-    shipping_aed = st.number_input("تكلفة الشحن (درهم)", value=15.0)
-    customs_percent = st.number_input("الجمارك والضرائب (%)", value=10)
+with tab1:
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.subheader("📦 بيانات الشحنة")
+        p_col1, p_col2 = st.columns(2)
+        with p_col1:
+            item_name = st.text_input("وصف قطعة الغيار", "محرك تويوتا كامري 2024")
+            part_no = st.text_input("رقم القطعة (Part Number)", "TY-2024-X1")
+        with p_col2:
+            aed_price = st.number_input("سعر الشراء من دبي (درهم)", min_value=0.0, value=1200.0)
+            category = st.selectbox("تصنيف القطعة", ["محركات", "جير بوكس", "كهربائيات", "هيكل خارجي"])
 
-# المحرك الحسابي المتطور
-total_cost_aed = aed_price + shipping_aed
-# تحويل الدرهم لدولار (ثابت 3.67) ثم إضافة الجمارك
-total_cost_usd = (total_cost_aed / 3.67) * (1 + customs_percent/100)
-# التحويل لليمني حسب صرفك (530) وإضافة الربح
-final_price_yer = (total_cost_usd * exchange_rate) * (1 + profit_target/100)
+        st.subheader("🚛 تكاليف الخدمات واللوجستيات")
+        s_col1, s_col2 = st.columns(2)
+        with s_col1:
+            shipping_aed = st.number_input("تكلفة الشحن الدولي (درهم)", value=150.0)
+            customs_percent = st.number_input("ضريبة الجمارك (%)", value=10)
+        with s_col2:
+            land_transport = st.number_input("نقل بري داخلي (ريال يمني)", value=15000)
+            other_costs = st.number_input("مصاريف أخرى (ريال يمني)", value=2000)
 
-# عرض النتائج بطريقة ذكية
+    # --- محرك الحسابات الذكي (Backend) ---
+    total_aed = aed_price + shipping_aed
+    cost_usd = (total_aed / 3.67) * (1 + customs_percent/100)
+    cost_yer = (cost_usd * exchange_rate) + land_transport + other_costs
+    final_price = cost_yer * (1 + profit_margin/100)
+    profit_amount = final_price - cost_yer
+
+    with col2:
+        st.subheader("📊 ملخص التحليل المالي")
+        st.metric("السعر النهائي للبيع", f"{round(final_price):,} ريال")
+        st.metric("صافي أرباحك", f"{round(profit_amount):,} ريال")
+        st.metric("تكلفة الاستيراد بالدولار", f"${round(cost_usd, 2)}")
+        
+        if profit_amount > 50000:
+            st.success("✅ هذه الصفقة ذات عوائد عالية")
+        else:
+            st.warning("⚠️ هامش الربح منخفض نسبياً")
+
+# --- عرض الفاتورة الاحترافية ---
+st.divider()
+st.subheader("🧾 عرض سعر احترافي للعميل")
+invoice_html = f"""
+<div style="border: 2px solid #ddd; padding: 20px; border-radius: 10px; background-color: white;">
+    <h2 style="text-align: center; color: #1e3a8a;">البازلاء لقطع الغيار</h2>
+    <p style="text-align: center;">دبي - اليمن</p>
+    <hr>
+    <table style="width: 100%; text-align: right;">
+        <tr><td><b>القطعة:</b></td><td>{item_name}</td></tr>
+        <tr><td><b>رقم القطعة:</b></td><td>{part_no}</td></tr>
+        <tr><td><b>التصنيف:</b></td><td>{category}</td></tr>
+        <tr style="color: green; font-size: 20px;"><td><b>السعر النهائي:</b></td><td><b>{round(final_price):,} ريال يمني</b></td></tr>
+    </table>
+    <hr>
+    <p style="font-size: 12px; color: gray; text-align: center;">هذا العرض صالح لمدة 24 ساعة فقط نظراً لتغير أسعار الصرف</p>
+</div>
+"""
+st.markdown(invoice_html, unsafe_allow_html=True)
+
+# زر لمشاركة الفاتورة
+if st.button("📲 تجهيز لإرسالها عبر واتساب"):
+    wa_text = f"عزيزي العميل، عرض سعر قطعة ({item_name}) هو: {round(final_price):,} ريال يمني."
+    st.text_area("انسخ النص:", wa_text)
+
+with tab2:
+    st.write("هنا سيتم عرض سجل مبيعاتك السابقة (يتطلب قاعدة بيانات).")
 st.divider()
 kpi1, kpi2, kpi3 = st.columns(3)
 kpi1.metric("التكلفة (دولار)", f"${round(total_cost_usd, 2)}")
