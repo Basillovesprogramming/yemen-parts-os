@@ -1,163 +1,99 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
-from datetime import datetime
+import time
 
-# ==========================================
-# 1- الهندسة البصرية والوسائط (Visual Identity)
-# ==========================================
-st.set_page_config(page_title="Basil Global Quantum HQ", layout="wide", page_icon="👑")
+# 1- إعدادات الانفجار البصري (Vibrant UI)
+st.set_page_config(page_title="BASIL COMMAND", layout="wide")
 
-# تصميم احترافي بلمسة سينمائية
 st.markdown("""
     <style>
-    .stApp { background: linear-gradient(135deg, #05070a 0%, #0d1117 100%); color: #ffffff; }
+    /* خلفية متحركة وألوان نيون */
+    .stApp {
+        background: radial-gradient(circle, #001d3d 0%, #000814 100%);
+        color: #00fbff;
+    }
     
-    /* تنسيق الكروت المالية العملاقة */
+    /* جعل الكروت تتوهج (Neon Glow) */
     [data-testid="stMetric"] {
-        background: rgba(22, 27, 34, 0.8);
-        border: 2px solid #30363d;
-        border-radius: 25px;
-        padding: 25px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        transition: transform 0.3s;
+        background: rgba(0, 247, 255, 0.05) !important;
+        border: 2px solid #00fbff !important;
+        box-shadow: 0 0 15px #00fbff;
+        border-radius: 30px !important;
+        transition: 0.5s;
     }
-    [data-testid="stMetric"]:hover { transform: translateY(-10px); border-color: #58a6ff; }
+    [data-testid="stMetric"]:hover { transform: scale(1.05); box-shadow: 0 0 30px #ff00c8; border-color: #ff00c8 !important; }
     
-    /* نصوص ناصعة وواضحة */
-    [data-testid="stMetricValue"] { color: #ffffff !important; font-size: 40px !important; font-weight: 900; }
-    [data-testid="stMetricLabel"] { color: #58a6ff !important; font-size: 18px !important; }
-    
-    /* الأزرار التفاعلية */
+    /* الأزرار بنمط الألعاب */
     .stButton>button {
-        width: 100%; border-radius: 15px; height: 3.5em;
-        background: linear-gradient(90deg, #1f6feb, #58a6ff);
-        color: white; border: none; font-weight: bold;
-        box-shadow: 0 4px 15px rgba(31, 111, 235, 0.4);
+        background: linear-gradient(45deg, #ff00c8, #58a6ff);
+        border: none; color: white; font-weight: bold; font-size: 20px;
+        border-radius: 50px; height: 3em; box-shadow: 0 5px 15px rgba(255, 0, 200, 0.4);
     }
     
-    .main-title { 
-        font-size: 60px; font-weight: 900; text-align: center; 
-        background: linear-gradient(90deg, #58a6ff, #bc8cff);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        margin-bottom: 0px;
+    .title-neon {
+        font-size: 70px; font-weight: 900; text-align: center;
+        color: #fff; text-shadow: 0 0 10px #00fbff, 0 0 20px #00fbff, 0 0 40px #00fbff;
+        font-family: 'Courier New', Courier, monospace;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# ==========================================
-# 2- القائمة الجانبية (مركز قيادة باسل - الإدارة والأمان)
-# ==========================================
+# 2- القائمة الجانبية (Sidebar)
 with st.sidebar:
-    st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-    st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=120)
-    st.markdown("<h2 style='color: #58a6ff;'>BASIL ADMIN</h2>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-    
+    st.markdown("<h1 style='text-align: center;'>👑 باسل</h1>", unsafe_allow_html=True)
+    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndm0zd3J6Mms0Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKVUn7iM8FMEU24/giphy.gif", width=250)
     st.divider()
-    st.subheader("🎵 الوسائط الصوتية")
-    # إضافة صوت تفاعلي للمشروع
-    st.audio("https://www.soundjay.com/buttons/sounds/button-10.mp3") 
-    
-    st.divider()
-    st.subheader("💰 إعدادات السوق")
-    ex_rate = st.number_input("سعر صرف الدرهم/يمني اليوم", value=145.0)
-    
-    st.divider()
-    st.subheader("🛡️ بروتوكول الأمان")
-    st.code("SSL: ACTIVE\nENCRYPTION: RSA-4096\nSTATUS: SECURED")
-    
-    if st.button("🔄 تحديث النظام بالكامل"):
+    st.audio("https://www.soundjay.com/buttons/sounds/button-20.mp3")
+    st.write("🔴 الحالة: **مسيطر بالكامل**")
+
+# 3- العنوان التفاعلي
+st.markdown('<p class="title-neon">BASIL QUANTUM</p>', unsafe_allow_html=True)
+
+# 4- تفاعل الوسائط (مشروع وسائط حقيقي)
+col_v1, col_v2 = st.columns([2, 1])
+
+with col_v1:
+    st.markdown("### 🎥 فيديو العمليات الاستراتيجية")
+    # فيديو بخلفية سينمائية
+    st.video("https://www.youtube.com/watch?v=36YnV9STBqc") 
+
+with col_v2:
+    st.markdown("### 🔈 أوامر صوتية")
+    if st.button("🚨 تفعيل إنذار الأرباح"):
+        st.toast("تحذير: الأرباح تتجاوز التوقعات!")
         st.balloons()
-        st.rerun()
+        st.audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3")
 
-# ==========================================
-# 3- المحتوى الرئيسي (مشروع الوسائط المتكامل)
-# ==========================================
-st.markdown('<p class="main-title">BASIL GLOBAL QUANTUM</p>', unsafe_allow_html=True)
-st.markdown("<h3 style='text-align: center; color: #8b949e;'>مشروع الوسائط المتعددة: إدارة سلاسل الإمداد الذكية (دبي - اليمن)</h3>", unsafe_allow_html=True)
+# 5- الرسوم البيانية التفاعلية (وسائط متحركة)
 st.divider()
+st.subheader("📊 خريطة السيطرة المالية")
+fig = go.Figure(data=[go.Mesh3d(x=[0, 1, 2, 0], y=[0, 0, 1, 2], z=[0, 2, 0, 1], color='#ff00c8', opacity=0.5)])
+fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font_color="white")
+st.plotly_chart(fig, use_container_width=True)
 
-# التبويبات العملاقة
-tab_dashboard, tab_multimedia, tab_logistics, tab_finance, tab_interactive = st.tabs([
-    "📊 لوحة التحكم العملاقة", "🎬 معرض الوسائط", "🚢 المسار اللوجستي", "💰 المحرك المالي", "🎮 مركز التفاعل"
-])
+# 6- تبويبات الوسائط المتعددة
+t1, t2, t3 = st.tabs(["💎 الجوهرة المالية", "🚚 الرادار اللوجستي", "📱 مركز التفاعل"])
 
-# --- التبويب 1: لوحة التحكم (الذكاء الاصطناعي) ---
-with tab_dashboard:
-    st.subheader("📈 رؤى الأداء الاستراتيجي")
-    m1, m2, m3 = st.columns(3)
-    m1.metric("إجمالي قيمة الأصول", "1,840,000 AED", "+4.2%")
-    m2.metric("كفاءة العمليات", "96%", "تحسن مستمر")
-    m3.metric("صافي الأرباح المتوقع", "145,000,000 YER")
-    
-    # رسم بياني تفاعلي عملاق
-    df_chart = pd.DataFrame({'الشهر': ['يناير', 'فبراير', 'مارس', 'أبريل'], 'الواردات': [120, 250, 180, 320]})
-    fig = px.area(df_chart, x='الشهر', y='الواردات', title="منحنى تدفق البضائع الدولي", color_discrete_sequence=['#58a6ff'])
-    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font_color="white")
-    st.plotly_chart(fig, use_container_width=True)
+with t1:
+    c1, c2, c3 = st.columns(3)
+    c1.metric("رأس المال النفاذ", "1,840,000 AED")
+    c2.metric("الصرف المباشر", "145.0 YER")
+    c3.metric("النمو السنوي", "300%", "FIRE")
 
-# --- التبويب 2: معرض الوسائط (صور وفيديو) ---
-with tab_multimedia:
-    st.subheader("📽️ العرض البصري للمشروع")
-    c_vid, c_img = st.columns([2, 1])
-    with c_vid:
-        st.markdown("#### فيديو تشغيلي: من دبي إلى صنعاء")
-        st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") # رابط افتراضي
-    with c_img:
-        st.markdown("#### صور المخزون")
-        st.image("https://img.freepik.com/free-photo/car-engine-parts_23-2148970367.jpg", caption="قطع أصلية 100%")
-        st.image("https://img.freepik.com/free-photo/logistics-transportation-container-cargo-ship_335224-659.jpg", caption="شحن دولي آمن")
+with t2:
+    st.markdown("### 🗺️ تتبع الحاويات عبر الأقمار الصناعية")
+    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y2Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/I5xV5HnSIno/giphy.gif")
+    st.progress(90)
+    st.info("📍 الشحنة تقترب من سواحل اليمن..")
 
-# --- التبويب 3: اللوجستيات (تتبع حي) ---
-with tab_logistics:
-    st.subheader("🚛 مصفوفة اللوجستيات الدولية")
-    col_t1, col_t2 = st.columns([2, 1])
-    with col_t1:
-        st.info("📍 تتبع حي: الشحنة #BSL-2026")
-        st.progress(85)
-        st.markdown("**الموقع الحالي:** ميناء جبل علي ⬅️ منفذ شحن (اليمن) ➡️ المستودع المركزي")
-    with col_t2:
-        st.subheader("📜 المستندات القانونية")
-        st.success("✅ بوليصة الشحن")
-        st.success("✅ الفواتير التجارية")
-        st.warning("⏳ فسح الجمارك النهائي")
+with t3:
+    st.subheader("العب وتفاعل مع مشروعك")
+    if st.button("🚀 إطلاق القمر الصناعي لباسل"):
+        with st.spinner('جاري الاتصال بالأقمار الصناعية...'):
+            time.sleep(2)
+            st.success("تم الاتصال! العالم تحت يدك الآن.")
+            st.snow()
 
-# --- التبويب 4: المحرك المالي (أتمتة الحسابات) ---
-with tab_finance:
-    st.subheader("💰 الحاسبة المالية التفاعلية")
-    f1, f2 = st.columns(2)
-    with f1:
-        cost_aed = st.number_input("سعر الشراء (درهم إماراتي)", value=15000)
-        tax_pct = st.selectbox("نسبة الجمارك والضرائب", [0.05, 0.15, 0.25], format_func=lambda x: f"{int(x*100)}%")
-    with f2:
-        final_aed = cost_aed * (1 + tax_pct)
-        final_yer = final_aed * ex_rate
-        st.metric("التكلفة النهائية (ريال يمني)", f"{final_yer:,.0f} YER")
-        st.info(f"إجمالي التكلفة بالدرهم: {final_aed:,.0f} AED")
-
-# --- التبويب 5: مركز التفاعل (أزرار ومؤثرات) ---
-with tab_interactive:
-    st.subheader("🎮 تفاعل مع النظام")
-    st.write("اضغط على الأزرار لتفعيل المؤثرات التفاعلية للمشروع:")
-    ib1, ib2, ib3 = st.columns(3)
-    
-    if ib1.button("🎉 تفعيل احتفال النجاح"):
-        st.balloons()
-        st.snow()
-        st.toast("تهانينا يا باسل! النظام يعمل بكفاءة قصوى.")
-        
-    if ib2.button("📢 إرسال إشعار صوتي"):
-        st.write("🔊 جاري تشغيل تنبيه المستودع...")
-        st.audio("https://www.soundjay.com/buttons/sounds/button-09.mp3")
-        
-    if ib3.button("📊 توليد تقرير شامل"):
-        st.success("تم إعداد التقرير التفاعلي بنجاح!")
-        st.download_button("تحميل التقرير (PDF)", data="تقرير باسل العالمي", file_name="Basil_Report.pdf")
-
-# ==========================================
-# 4- التذييل (Footer)
-# ==========================================
 st.divider()
-st.markdown(f"<p style='text-align: center; color: #8b949e;'>Basil Quantum Enterprise | v23.0 Master Multimedia | {datetime.now().year}</p>", unsafe_allow_html=True)
+st.caption("Basil Global Cyber-Systems v24.0 | No Limits")
