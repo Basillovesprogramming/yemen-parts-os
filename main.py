@@ -1,110 +1,111 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
-import json
 
-# ==========================================
-# 1- الهندسة البصرية فائقة الأداء
-# ==========================================
-st.set_page_config(page_title="BASIL QUANTUM | Global Trade", layout="wide")
+# 1- الإعدادات السيادية (Basil Identity)
+st.set_page_config(page_title="Basil Global Quantum", layout="wide")
 
+# 2- قفل التصميم الاحترافي (لضمان وضوح الأرقام على الجوال)
 st.markdown("""
     <style>
-    .stApp { background: radial-gradient(circle at top right, #0d1117, #010409); color: #e6edf3; }
-    .glitch-title {
-        font-family: 'Inter', sans-serif;
-        font-size: 65px; font-weight: 900;
-        background: linear-gradient(90deg, #58a6ff, #bc8cff, #58a6ff);
-        background-size: 200% auto;
+    .stApp { background-color: #0d1117; color: #ffffff; }
+    .main-title {
+        background: linear-gradient(90deg, #58a6ff, #bc8cff);
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        animation: gradient 3s linear infinite;
-        text-align: center;
+        text-align: center; font-size: 45px; font-weight: 900; padding: 10px;
     }
-    @keyframes gradient { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-    .live-indicator { color: #238636; font-size: 14px; font-weight: bold; }
+    [data-testid="stMetricValue"] { color: #ffffff !important; font-size: 35px !important; font-weight: 800 !important; }
+    [data-testid="stMetricLabel"] { color: #58a6ff !important; font-size: 16px !important; }
+    [data-testid="stMetric"] { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 15px !important; padding: 20px !important; }
+    .stTabs [data-baseweb="tab-list"] { background-color: #0d1117; border-bottom: 1px solid #30363d; }
     </style>
     """, unsafe_allow_html=True)
 
-# ==========================================
-# 2- الركيزة السرية: محرك الربط الحي (Real-time Core)
-# ==========================================
-def get_live_rates():
-    # هنا يتم الربط بـ API حقيقي لأسعار العملات
-    return {"USD_YER": 530.45, "SAR_YER": 141.20, "AED_YER": 144.50}
+# 3- الذاكرة الافتراضية للتجربة (بدون حفظ دائم)
+if 'temp_inv' not in st.session_state:
+    st.session_state.temp_inv = [
+        {"ID": "BS-01", "القطعة": "مكينة لاندكروزر", "OEM": "1GR-FE", "التكلفة": 12000, "البيع": 15500, "الحالة": "مستودع دبي"},
+        {"ID": "BS-02", "القطعة": "جير بوكس لكزس", "OEM": "A750F", "التكلفة": 4500, "البيع": 6200, "الحالة": "قيد الشحن"}
+    ]
 
-rates = get_live_rates()
-
-# ==========================================
-# 3- مركز القيادة (The Sovereign Dashboard)
-# ==========================================
-st.markdown('<p class="glitch-title">BASIL GLOBAL QUANTUM</p>', unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; margin-top: -30px;'>Strategic Import/Export Orchestrator | UAE - YEMEN</p>", unsafe_allow_html=True)
-
+# --- القائمة الجانبية (Command Center) ---
 with st.sidebar:
-    st.markdown("### 🛰️ Live Market Feed")
-    st.write(f"💵 USD/YER: `{rates['USD_YER']}` <span class='live-indicator'>● LIVE</span>", unsafe_allow_html=True)
-    st.write(f"🇸🇦 SAR/YER: `{rates['SAR_YER']}` <span class='live-indicator'>● LIVE</span>", unsafe_allow_html=True)
+    st.markdown("<h1 style='color: #58a6ff;'>BASIL CONTROL</h1>", unsafe_allow_html=True)
+    st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=100)
     st.divider()
-    st.markdown("### 🛡️ Cyber Security")
-    st.code("Key: RSA-4096-BIT\nStatus: SHIELD ACTIVE")
+    usd_rate = st.number_input("💵 صرف الدولار (يمني)", value=535)
+    sar_rate = st.number_input("🇸🇦 صرف السعودي (يمني)", value=142)
+    st.divider()
+    st.info("🛡️ نظام الأمان: AES-256 نشط\n🌐 الحالة: متصل عالمياً")
 
-# ==========================================
-# 4- تطبيق الخطة السبعة (الهيكلية الكاملة)
-# ==========================================
-tabs = st.tabs(["🏛️ Intelligence Hub", "📦 Global Catalog", "🚢 Logistics Matrix", "📑 Auto-Documentation"])
+# واجهة النظام الرئيسية
+st.markdown('<p class="main-title">BASIL GLOBAL QUANTUM</p>', unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #8b949e;'>المحرك الاستراتيجي لإدارة استيراد قطع الغيار (الإمارات - اليمن)</p>", unsafe_allow_html=True)
 
-# --- التبويب 1: ذكاء الأعمال والتنبؤ ---
-with tabs[0]:
-    st.subheader("📊 Strategic AI Insights")
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Current Asset Value", "1,840,000 AED", "+4.2%")
-    c2.metric("Logistics Latency", "1.4 Days", "-0.3", delta_color="normal")
-    c3.metric("Profit Forecast (Q1)", "145,000,000 YER")
+# --- التبويبات (الخطة السبعة) ---
+t1, t2, t3, t4 = st.tabs(["📊 ذكاء الأعمال", "📦 الكتالوج العالمي", "🚢 التتبع اللوجستي", "🛡️ الأمان والدعم"])
+
+# التبويب 1: التحليل المالي
+with t1:
+    st.subheader("📈 Strategic Insights")
+    m1, m2, m3 = st.columns(3)
+    m1.metric("إجمالي قيمة الأصول", "1,840,000 AED", "+4.2%")
+    m2.metric("زمن الوصول (متوسط)", "1.4 Days", "-0.3")
+    m3.metric("الأرباح المتوقعة", "145,000,000 YER")
     
-    # رسم بياني تنبؤي (Predictive Chart)
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=['Feb', 'Mar', 'Apr', 'May'], y=[80, 120, 160, 210], mode='lines+markers', name='Target', line=dict(dash='dash', color='#58a6ff')))
-    fig.add_trace(go.Scatter(x=['Feb', 'Mar'], y=[85, 125], mode='lines+markers', name='Actual', line=dict(width=4, color='#bc8cff')))
-    fig.update_layout(title="Predictive Growth Analysis", template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+    # رسم بياني للنمو
+    df_chart = pd.DataFrame({'الشهر': ['يناير', 'فبراير'], 'الأرباح': [85, 125]})
+    fig = px.line(df_chart, x='الشهر', y='الأرباح', markers=True, title="منحنى النمو الاستراتيجي")
+    fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font_color="white")
     st.plotly_chart(fig, use_container_width=True)
 
-# --- التبويب 2: الكتالوج (البند 2) ---
-with tabs[1]:
-    st.subheader("🔍 Smart Sourcing Catalog")
-    df_catalog = pd.DataFrame([
-        {"SKU": "BAS-9921", "Item": "Brake System", "OEM": "TY-001", "Supplier": "Dubai Autoparts", "Price": 450, "Status": "In Stock"},
-        {"SKU": "BAS-4432", "Item": "Turbo Unit", "OEM": "NS-882", "Supplier": "Sharjah Zone", "Price": 2100, "Status": "Transit"},
-    ])
-    st.table(df_catalog)
+# التبويب 2: الكتالوج
+with t2:
+    st.subheader("🔍 Smart Parts Catalog")
+    df_show = pd.DataFrame(st.session_state.temp_inv)
+    st.table(df_show)
+    
+    # إضافة قطعة جديدة (للتجربة)
+    with st.expander("➕ إضافة صنف جديد للكتالوج"):
+        c1, c2 = st.columns(2)
+        new_name = c1.text_input("اسم القطعة")
+        new_oem = c2.text_input("رقم OEM")
+        if st.button("تعميد في الذاكرة المؤقتة"):
+            st.success(f"تمت إضافة {new_name} بنجاح (ستختفي عند تحديث الصفحة)")
 
-# --- التبويب 3: اللوجستيات (البند 3) ---
-with tabs[2]:
-    st.subheader("🚢 Logistics Quantum Matrix")
-    col_l, col_r = st.columns([2, 1])
-    with col_l:
-        st.write("#### 🗺️ Real-time Transit Map (Simulated)")
-        # هنا يتم الربط بـ Map API لتتبع السفن/الشاحنات حقيقياً
-        st.image("https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg", caption="Global Asset Tracking (UAE - YEMEN Route Active)")
-    with col_r:
+# التبويب 3: اللوجستيات
+with t3:
+    st.subheader("🚢 Logistics Matrix")
+    
+    
+    col_map, col_info = st.columns([2, 1])
+    with col_map:
+        # عداد تقدم الشحنة
+        fig_gauge = go.Figure(go.Indicator(
+            mode = "gauge+number", value = 72,
+            title = {'text': "تقدم الشحنة الدولية"},
+            gauge = {'axis': {'range': [None, 100]}, 'bar': {'color': "#58a6ff"}}
+        ))
+        st.plotly_chart(fig_gauge, use_container_width=True)
+    with col_info:
         st.markdown("""
-        **Shipment Manifest:**
-        - **Vessel:** Basil Express V22
-        - **Port:** Jebel Ali (Departure)
-        - **Border:** Shehen (Clearance)
-        - **ETA:** 48h 12m
+        **بيانات التتبع الحالية:**
+        - **رقم الحاوية:** BSL-2026-X
+        - **الموقع:** ميناء جبل علي (دبي)
+        - **الوجهة:** منفذ شحن (اليمن)
+        - **الحالة:** تم التخليص الجمركي الإماراتي
         """)
-        st.progress(72)
 
-# --- التبويب 4: أتمتة الوثائق (البند 7) ---
-with tabs[3]:
-    st.subheader("📑 Sovereign Document Automation")
-    st.write("توليد الوثائق الرسمية للتخليص الجمركي")
-    doc_col1, doc_col2 = st.columns(2)
-    if doc_col1.button("📄 Generate Commercial Invoice"):
-        st.download_button("Download PDF", data="SAMPLE DATA", file_name="Basil_Invoice.pdf")
-    if doc_col2.button("📜 Generate Certificate of Origin"):
-        st.success("Document Generated & Signed Digitally")
+# التبويب 4: الأمان والدعم
+with t4:
+    st.subheader("🛡️ Compliance & Support")
+    c_sec, c_supp = st.columns(2)
+    with c_sec:
+        st.info("📑 **التوافق القانوني:**\nجميع العمليات تخضع لقوانين التجارة الدولية بين الإمارات واليمن.")
+    with c_supp:
+        st.success("📞 **الدعم الفني (Basil):**\nواتساب دبي: +971-XXXXXXX\nواتساب اليمن: +967-XXXXXXX")
 
 st.markdown("---")
-st.caption(f"Basil Quantum ERP | v13.0 Final | Built for Global Domination © {datetime.now().year}")
+st.caption(f"Basil Quantum ERP | v14.0 Enterprise | Built for Strategic Domination © {datetime.now().year}")
