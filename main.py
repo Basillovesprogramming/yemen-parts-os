@@ -5,125 +5,115 @@ from datetime import datetime
 import time
 
 # ==========================================
-# 1- بروتوكول "الهيبة السوداء" (Cinematic UI)
+# 1- الإعدادات والهوية (The Sovereign Identity)
 # ==========================================
-st.set_page_config(page_title="BASIL SUPREMACY", layout="wide", page_icon="🔱")
+st.set_page_config(page_title="BASIL GLOBAL OS", layout="wide", page_icon="🔱")
 
 st.markdown("""
     <style>
-    /* خلفية سينمائية عميقة */
-    .stApp {
-        background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), 
-                    url('https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=1920&q=80');
-        background-size: cover;
-        color: #ffffff;
-    }
-    
-    /* تصميم الكروت "الزمردية" المتحركة */
+    .stApp { background: #05070a; color: #ffffff; }
     [data-testid="stMetric"] {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border-left: 5px solid #00ff88 !important;
-        border-radius: 10px !important;
-        backdrop-filter: blur(10px);
-        padding: 30px !important;
-        box-shadow: 10px 10px 20px rgba(0,0,0,0.5);
+        background: #161b22; border: 1px solid #30363d;
+        border-radius: 15px; padding: 20px;
     }
-    
-    [data-testid="stMetric"]:hover {
-        background: rgba(0, 255, 136, 0.1) !important;
-        transform: scale(1.02);
-        box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
-    }
-
-    /* نصوص ناصعة كالألماس */
-    [data-testid="stMetricValue"] { color: #00ff88 !important; font-size: 45px !important; font-weight: 900 !important; }
-
-    .hero-title {
-        font-size: 80px; font-weight: 900; text-align: center;
-        letter-spacing: 15px; color: white;
-        text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88;
-        margin-top: -50px;
-    }
+    [data-testid="stMetricValue"] { color: #00ff88 !important; }
+    .main-header { font-size: 40px; font-weight: 900; color: #58a6ff; text-align: center; }
     </style>
     """, unsafe_allow_html=True)
 
 # ==========================================
-# 2- القائمة الجانبية (The Sovereign Sidebar)
+# 2- قاعدة البيانات (Database Logic)
+# ==========================================
+if 'stock' not in st.session_state:
+    st.session_state.stock = pd.DataFrame([
+        {"الكود": "P-01", "القطعة": "مكينة تويوتا", "الكمية": 5, "التكلفة_درهم": 12000},
+        {"الكود": "P-02", "القطعة": "جير لكزس", "الكمية": 3, "التكلفة_درهم": 8500}
+    ])
+
+if 'debts' not in st.session_state:
+    st.session_state.debts = pd.DataFrame([
+        {"الزبون": "شركة الأمل", "المبلغ_يمني": 5000000, "الحالة": "متبقي"},
+        {"الزبون": "محل البركة", "المبلغ_يمني": 1200000, "الحالة": "خالص"}
+    ])
+
+# ==========================================
+# 3- القائمة الجانبية (Control Center)
 # ==========================================
 with st.sidebar:
-    st.markdown("<h1 style='text-align: center; color: #00ff88;'>BASIL HQ</h1>", unsafe_allow_html=True)
-    # جيف سينمائي يعبر عن التكنولوجيا
-    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y2Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/I5xV5HnSIno/giphy.gif", width=250)
-    
+    st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=100)
+    st.markdown("### BASIL ADMIN")
     st.divider()
-    st.subheader("🎵 نظام التنبيهات الصوتي")
+    ex_rate = st.number_input("سعر الصرف اليوم (AED/YER)", value=145.0)
+    st.divider()
+    st.write("📞 الدعم الفني: +967-XXXXXXX")
     st.audio("https://www.soundjay.com/buttons/sounds/button-20.mp3")
+
+# ==========================================
+# 4- المحتوى الرئيسي (The 7 Pillars)
+# ==========================================
+st.markdown('<p class="main-header">BASIL GLOBAL STRATEGIC OS</p>', unsafe_allow_html=True)
+
+tab_fin, tab_stock, tab_logistics, tab_debts, tab_media = st.tabs([
+    "💰 المالية والارباح", "📦 المخزن والكتالوج", "🚛 الشحن والجمارك", "📝 سجل الديون", "🎥 الوسائط"
+])
+
+# --- التبويب 1: المالية ---
+with tab_fin:
+    st.subheader("تحليل الأرباح والخسائر")
+    c1, c2, c3 = st.columns(3)
+    total_cost_aed = (st.session_state.stock['التكلفة_درهم'] * st.session_state.stock['الكمية']).sum()
+    c1.metric("رأس مال المخزن (AED)", f"{total_cost_aed:,.0f}")
+    c2.metric("قيمة المخزن (YER)", f"{total_cost_aed * ex_rate:,.0f}")
+    c3.metric("صافي الربح المتوقع", "22%", "+5%")
     
+    # حاسبة الجمارك التفاعلية
     st.divider()
-    st.write("🌍 **النفوذ العالمي:** دبي | صنعاء | طوكيو")
-    st.progress(100)
+    st.write("### 🧮 حاسبة التكلفة النهائية")
+    price = st.number_input("سعر القطعة في دبي", value=1000)
+    ship = st.number_input("تكلفة الشحن", value=200)
+    customs = st.slider("نسبة الجمارك %", 0, 50, 15)
+    total = (price + ship) * (1 + customs/100)
+    st.info(f"التكلفة النهائية باليمني: {total * ex_rate:,.0f} ريال")
+
+# --- التبويب 2: المخزن ---
+with tab_stock:
+    st.subheader("📦 إدارة المخزون المركزي")
+    st.dataframe(st.session_state.stock, use_container_width=True)
+    with st.expander("➕ إضافة صنف جديد"):
+        c_n = st.text_input("اسم القطعة")
+        c_q = st.number_input("الكمية", min_value=1)
+        c_p = st.number_input("التكلفة بالدرهم")
+        if st.button("حفظ في المخزن"):
+            new_item = {"الكود": f"P-0{len(st.session_state.stock)+1}", "القطعة": c_n, "الكمية": c_q, "التكلفة_درهم": c_p}
+            st.session_state.stock = pd.concat([st.session_state.stock, pd.DataFrame([new_item])], ignore_index=True)
+            st.rerun()
+
+# --- التبويب 3: اللوجستيات ---
+with tab_logistics:
+    st.subheader("🚛 مسار الإمداد الدولي")
     
-    if st.button("🔱 تفعيل السلطة المطلقة"):
-        st.balloons()
-        st.toast("Access Granted: Welcome Master Basil")
+    st.info("📍 الشحنة الحالية: **منفذ شحن الحدودي**")
+    st.progress(70)
+    st.write("📑 **البند 7 (القانون):** تأكد من مطابقة أرقام المكائن مع بوليصة الشحن لتجنب الحجز.")
 
-# ==========================================
-# 3- لوحة القيادة (The Command Center)
-# ==========================================
-st.markdown('<p class="hero-title">BASIL</p>', unsafe_allow_html=True)
-st.markdown("<h3 style='text-align: center; color: #8b949e; letter-spacing: 5px;'>QUANTUM GLOBAL TRADING SYSTEM</h3>", unsafe_allow_html=True)
+# --- التبويب 4: الديون والعملاء ---
+with tab_debts:
+    st.subheader("📝 سجل المديونيات والزبائن")
+    st.table(st.session_state.debts)
+    if st.button("تنبيه الزبائن المتأخرين"):
+        st.warning("تم إرسال إشعارات آلية للزبائن الذين عليهم مبالغ متبقية.")
 
-# صف الإحصائيات العملاق (البند 1)
-col1, col2, col3 = st.columns(3)
-col1.metric("ASSET VALUE", "1.84M AED", "TOP TIER")
-col2.metric("LOGISTICS FLIGHTS", "14 ACTIVE", "IN-TRANSIT")
-col3.metric("NET REVENUE", "145M YER", "98% ACCURACY")
-
-# ==========================================
-# 4- الوسائط التفاعلية (The Multi-Media Hub)
-# ==========================================
-st.divider()
-tab1, tab2, tab3 = st.tabs(["⚡ الرادار الذكي", "📽️ الكواليس والوسائط", "📈 مصفوفة الأرباح"])
-
-with tab1:
-    st.subheader("تتبع الأقمار الصناعية للشحنات")
-    
-    # رسم بياني ثلاثي الأبعاد للأرباح المتوقعة
-    fig = go.Figure(data=[go.Surface(z=[[1, 2, 3], [4, 5, 6], [7, 8, 9]], colorscale='Viridis')])
-    fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font_color="white", height=500)
-    st.plotly_chart(fig, use_container_width=True)
-
-with tab2:
-    st.subheader("🎬 الوسائط والمؤثرات")
-    c_v, c_i = st.columns([2, 1])
-    with c_v:
-        st.video("https://www.youtube.com/watch?v=36YnV9STBqc") # فيديو برومو تقني
-    with c_i:
-        st.image("https://img.freepik.com/free-photo/industrial-design-concept-with-engine_23-2150141323.jpg", caption="The Power Unit")
-        st.image("https://img.freepik.com/free-photo/logistics-transportation-container-cargo-ship_335224-659.jpg", caption="Global Hub")
-
-with tab3:
-    st.subheader("🧮 حاسبة الصرف الفوري")
-    col_a, col_b = st.columns(2)
+# --- التبويب 5: الوسائط ---
+with tab_media:
+    st.subheader("📽️ المعرض التفاعلي")
+    col_v, col_a = st.columns(2)
+    with col_v:
+        st.video("https://www.youtube.com/watch?v=36YnV9STBqc")
     with col_a:
-        st.markdown("#### أدخل القيمة بالدرهم (AED)")
-        val_in = st.number_input("", value=10000)
-    with col_b:
-        st.markdown("#### القيمة بالريال اليمني (YER)")
-        st.markdown(f"<h1 style='color: #00ff88;'>{val_in * 145:,.0f}</h1>", unsafe_allow_html=True)
-        st.progress(75)
+        st.image("https://img.freepik.com/free-photo/industrial-design-concept-with-engine_23-2150141323.jpg")
+        if st.button("🎉 تفعيل احتفال الأرباح"):
+            st.balloons()
+            st.audio("https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3")
 
-# ==========================================
-# 5- التفاعل الحي (The Final Interaction)
-# ==========================================
 st.divider()
-st.subheader("🕹️ وحدة التحكم التفاعلية")
-if st.button("🔥 إطلاق إعصار الأرباح"):
-    with st.spinner('برمجة النجاح...'):
-        time.sleep(1)
-        st.snow()
-        st.audio("https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3")
-        st.success("تم التفعيل! أنت الآن في القمة يا باسل.")
-
-# تذييل الصفحة
-st.caption(f"BASIL SUPREMACY v26.0 | The Final Multi-Media OS | © {datetime.now().year}")
+st.caption(f"BASIL GLOBAL v27.0 | The Industrial Masterpiece | © {datetime.now().year}")
