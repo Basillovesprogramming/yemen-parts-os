@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import time
+from datetime import datetime  # <--- هذا هو السطر الذي كان ناقصاً وحل المشكلة
 
 # ==========================================
 # 1- بروتوكول القيادة العليا (The Neuralink UI)
@@ -33,11 +34,10 @@ st.markdown("""
     }
 
     /* نصوص إيلون ماسك ناصعة البياض */
-    [data-testid="stMetricValue"] { color: #00d4ff !important; font-family: 'Orbitron', sans-serif; font-weight: 900 !important; }
+    [data-testid="stMetricValue"] { color: #00d4ff !important; font-weight: 900 !important; }
 
     /* العناوين المستقبلية */
     .elon-title {
-        font-family: 'Orbitron', sans-serif;
         font-size: 65px;
         text-align: center;
         letter-spacing: 10px;
@@ -54,7 +54,6 @@ st.markdown("""
 # ==========================================
 with st.sidebar:
     st.markdown("<h1 style='text-align: center; color: #00d4ff;'>MASTERMIND</h1>", unsafe_allow_html=True)
-    # صورة تعبيرية توحي بالقوة والسيطرة
     st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndm0zd3J6Mms0Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKVUn7iM8FMEU24/giphy.gif", width=250)
     
     st.divider()
@@ -73,21 +72,16 @@ with st.sidebar:
 st.markdown('<p class="elon-title">BASIL X-VISION</p>', unsafe_allow_html=True)
 st.markdown("<h4 style='text-align: center; color: #8b949e;'>GLOBAL LOGISTICS & QUANTUM TRADING</h4>", unsafe_allow_html=True)
 
-# الإحصائيات (البند 1 من الخطة)
 col1, col2, col3 = st.columns(3)
 col1.metric("إجمالي الثروة النشطة", "1,840,000 AED", "+12% 📈")
 col2.metric("أسطول الحاويات", "42 حاوية", "تحت السيطرة")
 col3.metric("توقعات الربح السنوي", "$45,000,000", "Target Locked")
 
-# ==========================================
-# 4- الوسائط المتعددة (البند 2 و 3)
-# ==========================================
 st.divider()
 t1, t2, t3 = st.tabs(["🛰️ رادار التتبع", "📦 مخزن الأسلحة التجارية", "💹 الذكاء المالي"])
 
 with t1:
     st.subheader("تتبع الشحنات عبر الأقمار الصناعية (Real-time)")
-    # رسم بياني ثلاثي الأبعاد تفاعلي (يذهل أي مستخدم)
     fig = go.Figure(data=[go.Scatter3d(
         x=[1, 2, 3, 4], y=[10, 20, 15, 25], z=[5, 5, 5, 5],
         mode='lines+markers',
@@ -119,20 +113,18 @@ with t3:
         st.write("أدخل القيمة (AED):")
         val = st.number_input("", value=10000)
     with c_b:
-        st.write("النتيجة بالريال اليمني (صرف إيلون ماسك):")
+        st.write("النتيجة بالريال اليمني:")
         st.title(f"{val * 145:,.0f} YER")
-        st.progress(85) # شريط طاقة يوضح قوة الصفقة
+        st.progress(85)
 
-# ==========================================
-# 5- المؤثرات الصوتية والتفاعل (البند 5 و 6)
-# ==========================================
 st.divider()
 st.subheader("🎮 مركز التحكم التفاعلي")
-if st.button("🔥 تفعيل وضع الهجوم التجاري (Attack Mode)"):
+if st.button("🔥 تفعيل وضع الهجوم التجاري"):
     with st.spinner('Calculating profits...'):
-        time.sleep(2)
+        time.sleep(1)
         st.snow()
         st.audio("https://www.soundjay.com/misc/sounds/wind-chime-01.mp3")
-        st.warning("⚠️ تحذير: نسبة الأرباح ستتجاوز قدرة البنوك على التحمل!")
+        st.warning("⚠️ نسبة الأرباح ستتجاوز قدرة البنوك!")
 
-st.caption(f"BASIL GLOBAL X-VISION v25.0 | Multi-Media OS | © {datetime.now().year}")
+# التذييل المصحح
+st.caption(f"BASIL GLOBAL X-VISION v25.1 | Multi-Media OS | © {datetime.now().year}")
