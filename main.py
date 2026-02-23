@@ -89,10 +89,10 @@ if st.button("📲 تجهيز رسالة واتساب للعميل"):
 
 with tab_info:
     st.write("هذا النظام مبرمج لصالح التاجر **باسل** لإدارة عمليات الاستيراد بدقة متناهية.")
-        with c1:
+    with c1:
             item_name = st.text_input("اسم القطعة (مثلاً: مساعدات كامري)", "قطعة غيار")
             part_number = st.text_input("رقم القطعة (Part Number)", "PN-0000")
-        with c2:
+    with c2:
             category = st.selectbox("تصنيف القطعة", ["محركات", "جير بوكس", "كهربائيات", "هيكل", "أخرى"])
             aed_price = st.number_input("سعر الشراء في دبي (درهم)", min_value=0.0, value=100.0)
 
